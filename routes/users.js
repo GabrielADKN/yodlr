@@ -10,8 +10,13 @@ var usersFilePath = path.join(__dirname, "../init_data.json");
 var users = require(usersFilePath).data;
 var curId = _.size(users);
 
-/* GET users listing. */
+/* Home */
 router.get("/", function (req, res) {
+  res.render("index.html");
+});
+
+/* GET users listing. */
+router.get("/admin", function (req, res) {
   const allUsers = _.toArray(users);
   log.info("Listed users", allUsers);
   res.render("admin.html", { users: allUsers });
@@ -23,7 +28,7 @@ router.get("/sign", function (req, res) {
 });
 
 /* Create a new user */
-router.post("/", function (req, res) {
+router.post("/sign", function (req, res) {
   var user = req.body;
   user.id = curId++;
   if (!user.state || (user.state !== "pending" && user.state !== "active")) {
