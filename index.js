@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('./lib/logger');
 var cors = require('cors');
+const nunjucks = require("nunjucks");
 
 var users = require('./routes/users');
 
@@ -18,7 +19,12 @@ app.use(cookieParser());
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', users);
+nunjucks.configure("templates", {
+  autoescape: true,
+  express: app
+})
+
+app.use('/', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
